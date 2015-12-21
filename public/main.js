@@ -38,7 +38,6 @@ function convertStudentObjectToListItem( student ){
 }
 
 function renderStudentList( studentList ){
-  console.log('here')
   $('.g-student-list').append( studentList );
 }
 
@@ -46,6 +45,43 @@ function getStudentData(){
   return new Promise( function( resolve, reject ){
     $.ajax({
       method: 'GET',
+      url: 'http://localhost:8000/students',
+      success: resolve,
+      error: reject
+    });
+  });
+}
+
+function attachNewStudentData(){
+  $('.g-new-student-form').submit(function( event ){
+    event.preventDefault();
+    var formData = getNewStudentData($( this ));
+    createNewStudent(formData).then(function(){})
+    .catch(function(error){
+      console.error('Unable to add student.', error);
+    });
+  });
+}
+
+function getNewStudentData( form ){
+  var formValues = form.serializeArray();
+  // Kyle changed his mind about this method
+  // var studentData = {
+  //   name: formValues[0].name,
+  //   last: formValues[1].last,
+  //   dob: formValues[0].dob,
+  //   email: formValues[0].email
+  // }
+  return formValues.reduce(function( formattedStudent, student ){
+    formattedStudent[student.name] = student.value;
+    return formattedStudent;
+  }, {});
+}
+
+function createNewStudent(){
+  return new Promise( function( resolve, reject) {
+      $.ajax({
+      method: 'post',
       url: 'http://localhost:8000/students',
       success: resolve,
       error: reject
