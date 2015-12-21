@@ -1,0 +1,14 @@
+{
+  "name": "full_stack",
+  "version": "0.0.1",
+  "description": "full stack practice with kyle",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Elana Kopelevich",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
